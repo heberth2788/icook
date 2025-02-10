@@ -1,4 +1,4 @@
-package com.yape.icook
+package com.yape.icook.ui.home
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
