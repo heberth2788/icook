@@ -6,17 +6,7 @@ import com.yape.icook.ui.domainentity.FoodRecipe
  * Create mock data for testing purposes
  */
 internal fun createMockData(): List<FoodRecipe> = listOf(
-//    FoodRecipe(id = 27, name = "kaugsfjwgafjhgjcgdjgulwegfljsdgcljhsgdluycgwiuyglusjdzgvljasdgcjlwgsdlucgwe;ifgw;iuesfg iuy22gfuy   wgefjygweufg    weluiyfg    iuywegfjhwdgsfjhDGZhjfs", desc = "Delicious ceviche" ),
-    FoodRecipe(id = 9, name = "Ceviche", desc = "Delicious ceviche", ingredients = "1 pound jumbo shrimp, peeled and deveined.\n" +
-            "5 large lemons, juiced, or as needed.\n" +
-            "2 white onions, finely chopped.\n" +
-            "1 large tomato, seeded and chopped.\n" +
-            "1 cucumber, peeled and finely chopped.\n" +
-            "1 bunch radishes, finely diced.\n" +
-            "2 cloves fresh garlic, minced.\n" +
-            "3 fresh jalapeño peppers, seeded and minced.", preparation = "chunks of raw fish, " +
-            "marinated in freshly squeezed key lime, with sliced onions, chili peppers, salt and " +
-            "pepper. Corvina or cebo (sea bass) was the fish traditionally used"),
+    mockFoodRecipe,
     FoodRecipe(id = 10, name = "Lomo Saltado", desc = "Delicious lomo saltado" ),
     FoodRecipe(id = 11, name = "Pollo a la brasa", desc = "Delicious pollo a la brasa" ),
     FoodRecipe(id = 12, name = "Papa a la huancaina", desc = "Delicious papa a la huancaina" ),
@@ -42,4 +32,27 @@ internal fun createMockData(): List<FoodRecipe> = listOf(
     FoodRecipe(id = 6, name = "Tacos", desc = "Delicious tacos" ),
     FoodRecipe(id = 7, name = "Steak", desc = "Delicious steak" ),
     FoodRecipe(id = 8, name = "Ice Cream", desc = "Delicious ice cream" ),
+)
+
+/**
+ * The first mock food recipe
+ */
+internal val mockFoodRecipe = FoodRecipe(
+    id = 9,
+    name = "Ceviche",
+    imageUrl = "https://sarahkoszyk.com/wp-content/uploads/2013/10/ceviche_final.jpg",
+    desc = "Delicious peruvian ceviche",
+    lat = -12.0574941,
+    lon = -77.0341247,
+    ingredients = "1 pound jumbo shrimp, peeled and deveined.\n" +
+        "5 large lemons, juiced, or as needed.\n" +
+        "2 white onions, finely chopped.\n" +
+        "1 large tomato, seeded and chopped.\n" +
+        "1 cucumber, peeled and finely chopped.\n" +
+        "1 bunch radishes, finely diced.\n" +
+        "2 cloves fresh garlic, minced.\n" +
+        "3 fresh jalapeño peppers, seeded and minced.",
+    preparation = "Chunks of raw fish, " +
+        "marinated in freshly squeezed key lime, with sliced onions, chili peppers, salt and " +
+        "pepper. Corvina or cebo (sea bass) was the fish traditionally used"
 )

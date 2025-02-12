@@ -32,6 +32,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,7 +42,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import com.yape.icook.R
+import com.yape.icook.mock.createMockData
 import com.yape.icook.ui.domainentity.FoodRecipe
 import com.yape.icook.ui.theme.ICookTheme
 
@@ -53,17 +61,26 @@ fun HomeScreen(
 //    homeViewModel: HomeViewModel = HomeViewModel(), // when not using hilt in ViewModel
 //    homeViewModel: HomeViewModel = viewModel(), // when not using hilt in ViewModel
     homeViewModel: HomeViewModel = viewModel(),
+    navHostController: NavHostController,
 ) {
     val homeUiState: HomeUiState by homeViewModel.homeUiState.collectAsStateWithLifecycle()
-    var textToSearch: String by remember { mutableStateOf("") }
+//    var textToSearch: String by remember { mutableStateOf("") }
+//    val textToSearch: String by homeViewModel.textToSearch.collectAsStateWithLifecycle()
+
+//    homeViewModel.selectedIdFoodRecipe.takeIf { it != -1 }?.let {
+//        navHostController.navigate("detail/${it}")
+//    }
 
    HomeContent(
-       textToSearch = textToSearch,
-       onQueryChange = { textToSearch = it },
+//       textToSearch = textToSearch,
+       textToSearch = homeViewModel.textToSearch,
+       onQueryChange = { homeViewModel.onQueryChange(query = it) },
+//       onQueryChange = { textToSearch = it },
        onSearch = { },
        onActiveChange = { },
        foodRecipes = homeUiState.foodRecipes,
-       onClickFoodRecipe = { },
+//       onClickFoodRecipe = { homeViewModel.onClickFoodRecipe(foodRecipeId = it) },
+       onClickFoodRecipe = { navHostController.navigate("detail/${it}") },
        modifier = Modifier,
    )
 }
@@ -79,7 +96,7 @@ fun HomeContent(
     onSearch: (String) -> Unit,
     onActiveChange: (Boolean) -> Unit,
     foodRecipes: List<FoodRecipe> = emptyList(),
-    onClickFoodRecipe: () -> Unit = { },
+    onClickFoodRecipe: (foodRecipeId: Int) -> Unit = { },
     modifier: Modifier,
 ) {
     Scaffold(
@@ -101,7 +118,7 @@ fun HomeContent(
             modifier = modifier.padding(horizontal = 9.dp),
             contentPadding = contentPadding,
         ) {
-            items(foodRecipes) {foodRecipe: FoodRecipe ->
+            items(items = foodRecipes) {foodRecipe: FoodRecipe ->
                 HorizontalDivider()
                 FoodRecipeItem(
                     foodRecipe = foodRecipe,
@@ -120,12 +137,12 @@ fun HomeContent(
 @Composable
 fun FoodRecipeItem(
     foodRecipe: FoodRecipe,
-    onClickFoodRecipe: () -> Unit,
+    onClickFoodRecipe: (foodRecipeId: Int) -> Unit,
 //    onClickFoodRecipeMap: () -> Unit,
     modifier: Modifier,
 ) {
     OutlinedCard(
-        onClick = onClickFoodRecipe,
+        onClick = { onClickFoodRecipe(foodRecipe.id) },
         border = BorderStroke(0.dp, color = Color.Transparent),
         modifier = modifier
             .fillMaxWidth()
@@ -138,23 +155,23 @@ fun FoodRecipeItem(
                 .fillMaxWidth()
                 .padding(horizontal = 3.dp, vertical = 6.dp),
         ) {
-//            AsyncImage(
-//                model = foodRecipe.imageUrl,
-//                placeholder = painterResource(android.R.drawable.ic_menu_report_image),
-//                contentScale = ContentScale.Crop,
-//                contentDescription = null,
-//                modifier = modifier.weight(0.2f).size(50.dp)
-//            )
-            Image(
-                imageVector = Icons.Filled.Info,
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(foodRecipe.imageUrl)
+                    .crossfade(true)
+                    .build(),
+                placeholder = painterResource(id = R.drawable.ic_launcher_background),
                 contentDescription = null,
-                modifier = modifier.weight(0.2f).size(50.dp)
+                contentScale = ContentScale.Crop,
+                modifier = modifier.size(50.dp),
+//                imageLoader = LocalContext.current.imageLoader.newBuilder().logger(DebugLogger()).build(),
+                error = painterResource(id = R.drawable.ic_launcher_background),
             )
             Text(
                 text = foodRecipe.name,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                modifier = modifier.weight(0.8f),
+                modifier = modifier.weight(0.8f).padding(start = 6.dp),
             )
 //        IconButton(
 //            modifier = modifier.weight(0.2f),
@@ -226,14 +243,15 @@ fun SearchTopBar(
 @Composable
 fun HomeContentPreview() {
     ICookTheme {
-//        HomeContent(
-//            textToSearch = "",
-//            onQueryChange = { },
-//            onSearch = { },
-//            onActiveChange = { },
-//            foodRecipes = createMockData(),
-//            modifier = Modifier,
-//        )
-        HomeScreen()
+        HomeContent(
+            textToSearch = "",
+            onQueryChange = { },
+            onSearch = { },
+            onActiveChange = { },
+            foodRecipes = createMockData(),
+            modifier = Modifier,
+        )
+
+//        HomeScreen()
     }
 }

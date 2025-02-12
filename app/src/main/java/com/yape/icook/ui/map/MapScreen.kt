@@ -22,6 +22,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
@@ -36,8 +38,16 @@ import com.yape.icook.ui.domainentity.FoodRecipe
 import com.yape.icook.ui.theme.ICookTheme
 
 @Composable
-fun MapScreen() {
-
+fun MapScreen(
+    mapViewModel: MapViewModel = viewModel(),
+    navHostController: NavHostController,
+    foodRecipeId: Int,
+) {
+    MapContent(
+        foodRecipe = mapViewModel.foodRecipe,
+        onClickBack = { navHostController.navigateUp() },
+        modifier = Modifier,
+    )
 }
 
 @Composable
@@ -50,6 +60,7 @@ fun MapContent(
         topBar = {
             MapTopBar(
                 onClickBack = onClickBack,
+                foodRecipe = foodRecipe,
                 modifier = modifier,
             )
         }
@@ -70,12 +81,12 @@ fun CookMap(
     foodRecipe: FoodRecipe,
     modifier: Modifier,
 ) {
-    val singapore = LatLng(foodRecipe.lat, foodRecipe.lon)
+    val location = LatLng(foodRecipe.lat, foodRecipe.lon)
     var uiSettings by remember { mutableStateOf(MapUiSettings()) }
-    var properties by remember { mutableStateOf(MapProperties(mapType = MapType.SATELLITE)) }
-    val singaporeMarkerState = rememberMarkerState(position = singapore)
+    val properties by remember { mutableStateOf(MapProperties(mapType = MapType.NORMAL)) }
+    val markerState = rememberMarkerState(position = location)
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(singapore, 18f)
+        position = CameraPosition.fromLatLngZoom(location, 11.5f)
     }
 
     Box(
@@ -88,7 +99,7 @@ fun CookMap(
             modifier = modifier.matchParentSize(),
         ) {
             Marker(
-                state = singaporeMarkerState,
+                state = markerState,
                 title = foodRecipe.name,
                 snippet = foodRecipe.desc,
             )
@@ -106,11 +117,12 @@ fun CookMap(
 @Composable
 fun MapTopBar(
     onClickBack: () -> Unit,
+    foodRecipe: FoodRecipe,
     modifier: Modifier,
 ) {
     CenterAlignedTopAppBar(
         title = {
-            Text(text = stringResource(R.string.map_text))
+            Text(text = "${ foodRecipe.name } ${ stringResource(R.string.map_text) }")
         },
         navigationIcon = {
             IconButton(
@@ -126,28 +138,7 @@ fun MapTopBar(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun MapContentPreview() {
-    val myFoodRecipe = FoodRecipe(
-        id = 9,
-        name = "Ceviche",
-        desc = "Delicious ceviche",
-        lat = -13.163253,
-        lon = -72.5449074,
-        ingredients = "1 pound jumbo shrimp, peeled and deveined.\n" +
-            "5 large lemons, juiced, or as needed.\n" +
-            "2 white onions, finely chopped.\n" +
-            "1 large tomato, seeded and chopped.\n" +
-            "1 cucumber, peeled and finely chopped.\n" +
-            "1 bunch radishes, finely diced.\n" +
-            "2 cloves fresh garlic, minced.\n" +
-            "3 fresh jalapeño peppers, seeded and minced.",
-        preparation = "chunks of raw fish, " +
-            "marinated in freshly squeezed key lime, with sliced onions, chili peppers, salt and " +
-            "pepper. Corvina or cebo (sea bass) was the fish traditionally used"
-    )
     ICookTheme {
-        MapContent(
-            foodRecipe = myFoodRecipe,
-            modifier = Modifier,
-        )
+//        MapScreen()
     }
 }

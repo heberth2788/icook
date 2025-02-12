@@ -62,6 +62,7 @@ dependencies {
     implementation(libs.hilt.navigation.compose) // for use 'hiltViewModel()' compose
     implementation(libs.viewmodel.compose) // for use 'viewModel()' in compose
     implementation(libs.coil.compose) // for load images asynchronously from internet
+    implementation(libs.coil.network) // for load images asynchronously from internet
     implementation(libs.maps.compose) // for google maps for compose support
     implementation(libs.play.services.maps) // for google maps support
     implementation(libs.androidx.core.ktx)

@@ -1,5 +1,6 @@
 package com.yape.icook.ui.detail
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,16 +24,37 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import coil3.compose.AsyncImage
+import coil3.imageLoader
+import coil3.request.ImageRequest
+import coil3.request.crossfade
+import coil3.util.DebugLogger
 import com.yape.icook.R
+import com.yape.icook.mock.mockFoodRecipe
 import com.yape.icook.ui.domainentity.FoodRecipe
 import com.yape.icook.ui.theme.ICookTheme
 
 @Composable
-fun DetailScreen() {
-
+fun DetailScreen(
+    detailViewModel: DetailViewModel = viewModel(),
+    navHostController: NavHostController,
+    foodRecipeId: Int,
+) {
+    DetailContent(
+        foodRecipe = detailViewModel.foodRecipe,
+//        onClickBack = { detailViewModel.onClickBack() },
+        onClickBack = { navHostController.navigateUp() },
+        onClickMap = { navHostController.navigate("map/${foodRecipeId}") },
+        modifier = Modifier,
+    )
 }
 
 @Composable
@@ -40,7 +62,7 @@ fun DetailContent(
     foodRecipe: FoodRecipe,
     onClickBack: () -> Unit = { },
     onClickMap: () -> Unit = { },
-    modifier: Modifier
+    modifier: Modifier,
 ) {
     Scaffold(
         topBar = {
@@ -65,10 +87,17 @@ fun DetailContent(
                    contentAlignment = Alignment.BottomEnd
                ) {
                    // Food image
-                   Image(
-                       imageVector = Icons.Filled.Info,
+                   AsyncImage(
+                       model = ImageRequest.Builder(LocalContext.current)
+                           .data(foodRecipe.imageUrl)
+                           .crossfade(true)
+                           .build(),
+                       placeholder = painterResource(id = R.drawable.ic_launcher_background),
                        contentDescription = null,
-                       modifier = modifier.size(150.dp),
+                       contentScale = ContentScale.Crop,
+                       modifier = modifier.size(200.dp),
+//                       imageLoader = LocalContext.current.imageLoader.newBuilder().logger(DebugLogger()).build(),
+                       error = painterResource(id = R.drawable.ic_launcher_background),
                    )
                    // Map button
                    IconButton(
@@ -172,20 +201,9 @@ fun DetailTopBar(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun DetailContentPreview() {
-    val myFoodRecipe = FoodRecipe(id = 9, name = "Ceviche", desc = "Delicious peruvian ceviche", ingredients = "1 pound jumbo shrimp, peeled and deveined.\n" +
-                "5 large lemons, juiced, or as needed.\n" +
-                "2 white onions, finely chopped.\n" +
-                "1 large tomato, seeded and chopped.\n" +
-                "1 cucumber, peeled and finely chopped.\n" +
-                "1 bunch radishes, finely diced.\n" +
-                "2 cloves fresh garlic, minced.\n" +
-                "3 fresh jalapeño peppers, seeded and minced.", preparation = "Chunks of raw fish, " +
-                "marinated in freshly squeezed key lime, with sliced onions, chili peppers, salt and " +
-                "pepper. Corvina or cebo (sea bass) was the fish traditionally used")
     ICookTheme {
-        DetailContent(
-            foodRecipe = myFoodRecipe,
-            modifier = Modifier,
-        )
+
+
+//        DetailScreen()
     }
 }

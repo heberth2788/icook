@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.yape.icook.ui.detail.DetailScreen
 import com.yape.icook.ui.home.HomeScreen
 import com.yape.icook.ui.theme.ICookTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,29 +25,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ICookTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding: PaddingValues ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                    MainNavigation()
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun GreetingPreview() {
-    ICookTheme {
-        Greeting("Android")
     }
 }
