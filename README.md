@@ -25,8 +25,11 @@ MVVM: for separating the UI from the data layer
 ## Technologies
 
 - Kotlin: for building the app
-- Android Jetpack Compose: for building the UI
+- Android Jetpack Compose: for building and navigate the UI
+- Coil: for load images asynchronously from internet
 - Google Maps: for displaying maps
+  * Maps Compose library: for displaying maps with Compose
+  * Secrets gradle plugin: to hide the maps API key from VCS
 - Hilt: for dependency injection
 - Flows: for asynchronous data streams
 - Coroutines: for asynchronous programming
