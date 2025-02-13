@@ -33,7 +33,7 @@ MVVM: for separating the UI from the data layer
 - Hilt: for dependency injection
 - Flows: for asynchronous data streams
 - Coroutines: for asynchronous programming
-- Room: for caching data
+<!-- - Room: for caching data -->
 <!-- - Firebase (and Firebase emulators): for real-time database and authentication -->
 - Retrofit: for making network requests
 - R8: for minifying and optimizing the code

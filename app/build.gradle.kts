@@ -65,6 +65,8 @@ dependencies {
     implementation(libs.coil.network) // for load images asynchronously from internet
     implementation(libs.maps.compose) // for google maps for compose support
     implementation(libs.play.services.maps) // for google maps support
+    implementation(libs.retrofit) // for retrofit support
+    implementation(libs.retrofit.converter.gson) // for retrofit converter gson support
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

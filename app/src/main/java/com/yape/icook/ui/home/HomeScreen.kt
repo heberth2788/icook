@@ -1,5 +1,6 @@
 package com.yape.icook.ui.home
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -25,6 +26,7 @@ import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -57,32 +59,26 @@ import com.yape.icook.ui.theme.ICookTheme
  */
 @Composable
 fun HomeScreen(
-//    homeViewModel: HomeViewModel = hiltViewModel(), // when using hilt in ViewModel
-//    homeViewModel: HomeViewModel = HomeViewModel(), // when not using hilt in ViewModel
-//    homeViewModel: HomeViewModel = viewModel(), // when not using hilt in ViewModel
-    homeViewModel: HomeViewModel = viewModel(),
+    homeViewModel: HomeViewModel = hiltViewModel(),
     navHostController: NavHostController,
 ) {
     val homeUiState: HomeUiState by homeViewModel.homeUiState.collectAsStateWithLifecycle()
-//    var textToSearch: String by remember { mutableStateOf("") }
-//    val textToSearch: String by homeViewModel.textToSearch.collectAsStateWithLifecycle()
-
-//    homeViewModel.selectedIdFoodRecipe.takeIf { it != -1 }?.let {
-//        navHostController.navigate("detail/${it}")
-//    }
 
    HomeContent(
-//       textToSearch = textToSearch,
        textToSearch = homeViewModel.textToSearch,
        onQueryChange = { homeViewModel.onQueryChange(query = it) },
-//       onQueryChange = { textToSearch = it },
        onSearch = { },
        onActiveChange = { },
        foodRecipes = homeUiState.foodRecipes,
-//       onClickFoodRecipe = { homeViewModel.onClickFoodRecipe(foodRecipeId = it) },
        onClickFoodRecipe = { navHostController.navigate("detail/${it}") },
        modifier = Modifier,
    )
+
+    // Execute when the Composable is first composed and get
+    // the food recipe list from the server at first time
+    LaunchedEffect(key1 = Unit) {
+        homeViewModel.loadFoodRecipes()
+    }
 }
 
 /**

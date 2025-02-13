@@ -22,6 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -30,6 +31,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
@@ -44,7 +46,7 @@ import com.yape.icook.ui.theme.ICookTheme
 
 @Composable
 fun DetailScreen(
-    detailViewModel: DetailViewModel = viewModel(),
+    detailViewModel: DetailViewModel = hiltViewModel(),
     navHostController: NavHostController,
     foodRecipeId: Int,
 ) {
@@ -55,6 +57,13 @@ fun DetailScreen(
         onClickMap = { navHostController.navigate("map/${foodRecipeId}") },
         modifier = Modifier,
     )
+
+    // Execute when the Composable is first composed and get
+    // the food recipe list from the server at first time and
+    // filter it by foodRecipeId
+    LaunchedEffect(key1 = Unit) {
+        detailViewModel.loadFoodRecipe(foodRecipeId)
+    }
 }
 
 @Composable
