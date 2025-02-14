@@ -8,16 +8,6 @@ MVVM: for separating the UI from the data layer
 
 <img width="788" alt="Screenshot 2025-02-14 at 02 57 16" src="https://github.com/user-attachments/assets/9f33e913-bce8-4cfb-a6b0-c74d41f94a1a" />
 
-### Screenshots:
-
-![image](https://github.com/user-attachments/assets/c8b6801b-cf2e-4a3b-9c7e-91c7f02b7c87)
-
-![image](https://github.com/user-attachments/assets/7ec4a0d5-4707-4916-b465-c22b536709e0)
-
-![image](https://github.com/user-attachments/assets/fef57e36-01df-40f0-9fff-9ca45cfa816b)
-
-![image](https://github.com/user-attachments/assets/5c2e3b88-d868-4c7f-9073-92ae795b63da)
-
 ### Layers:
 
 1. UI Layer
@@ -34,7 +24,7 @@ MVVM: for separating the UI from the data layer
 
     2.2. DataSource
 
-## Technologies
+### Technologies
 
 - Kotlin: for building the app
 - Android Jetpack Compose: for building and navigate the UI
@@ -49,7 +39,7 @@ MVVM: for separating the UI from the data layer
 - R8: for minifying and optimizing the code
 - JUnit: for testing
 
-## To improve:
+### To improve:
 
 1. Improve the UX/UI
 2. Add Room or DataStore for caching data
@@ -57,3 +47,14 @@ MVVM: for separating the UI from the data layer
 4. Add Domain Layer when the app is more complex
 5. Add Firebase authentication for login and register
 6. Add CI/CE pipeline
+
+### Screenshots:
+
+![image](https://github.com/user-attachments/assets/270937ba-e2dc-4189-a8fe-0581168debb5)
+
+![image](https://github.com/user-attachments/assets/c66d0f0c-b389-4260-9cb6-4ca32527849e)
+
+![image](https://github.com/user-attachments/assets/3f21d4dd-50c6-4302-9f35-584331428c65)
+
+![image](https://github.com/user-attachments/assets/e569dc83-6b31-4a4d-82a9-d5151f669e3c)
+
