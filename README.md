@@ -24,7 +24,7 @@ MVVM: for separating the UI from the data layer
 
     2.2. DataSource
 
-## Technologies
+### Technologies
 
 - Kotlin: for building the app
 - Android Jetpack Compose: for building and navigate the UI
@@ -36,10 +36,9 @@ MVVM: for separating the UI from the data layer
 - Flows: for asynchronous data streams
 - Coroutines: for asynchronous programming
 - Retrofit: for making network requests
-- R8: for minifying and optimizing the code
 - JUnit: for testing
 
-## To improve:
+### To improve:
 
 1. Improve the UX/UI
 2. Add Room or DataStore for caching data
@@ -47,3 +46,15 @@ MVVM: for separating the UI from the data layer
 4. Add Domain Layer when the app is more complex
 5. Add Firebase authentication for login and register
 6. Add CI/CE pipeline
+7. Add R8 for minifying and optimizing the code
+
+### Screenshots:
+
+![image](https://github.com/user-attachments/assets/270937ba-e2dc-4189-a8fe-0581168debb5)
+
+![image](https://github.com/user-attachments/assets/c66d0f0c-b389-4260-9cb6-4ca32527849e)
+
+![image](https://github.com/user-attachments/assets/3f21d4dd-50c6-4302-9f35-584331428c65)
+
+![image](https://github.com/user-attachments/assets/e569dc83-6b31-4a4d-82a9-d5151f669e3c)
+
