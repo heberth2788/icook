@@ -36,7 +36,6 @@ MVVM: for separating the UI from the data layer
 - Flows: for asynchronous data streams
 - Coroutines: for asynchronous programming
 - Retrofit: for making network requests
-- R8: for minifying and optimizing the code
 - JUnit: for testing
 
 ### To improve:
@@ -47,6 +46,7 @@ MVVM: for separating the UI from the data layer
 4. Add Domain Layer when the app is more complex
 5. Add Firebase authentication for login and register
 6. Add CI/CE pipeline
+7. Add R8 for minifying and optimizing the code
 
 ### Screenshots:
 
