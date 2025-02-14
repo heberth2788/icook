@@ -1,10 +1,7 @@
 package com.yape.icook.ui.home
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,7 +10,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,14 +19,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
-import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,14 +35,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.yape.icook.R
 import com.yape.icook.mock.createMockData
-import com.yape.icook.ui.domainentity.FoodRecipe
+import com.yape.icook.data.entity.FoodRecipeResponse
 import com.yape.icook.ui.theme.ICookTheme
 
 
@@ -69,7 +60,7 @@ fun HomeScreen(
        onQueryChange = { homeViewModel.onQueryChange(query = it) },
        onSearch = { },
        onActiveChange = { },
-       foodRecipes = homeUiState.foodRecipes,
+       foodRecipeResponses = homeUiState.foodRecipeResponses,
        onClickFoodRecipe = { navHostController.navigate("detail/${it}") },
        modifier = Modifier,
    )
@@ -91,7 +82,7 @@ fun HomeContent(
     onQueryChange: (String) -> Unit,
     onSearch: (String) -> Unit,
     onActiveChange: (Boolean) -> Unit,
-    foodRecipes: List<FoodRecipe> = emptyList(),
+    foodRecipeResponses: List<FoodRecipeResponse> = emptyList(),
     onClickFoodRecipe: (foodRecipeId: Int) -> Unit = { },
     modifier: Modifier,
 ) {
@@ -114,10 +105,10 @@ fun HomeContent(
             modifier = modifier.padding(horizontal = 9.dp),
             contentPadding = contentPadding,
         ) {
-            items(items = foodRecipes) {foodRecipe: FoodRecipe ->
+            items(items = foodRecipeResponses) { foodRecipeResponse: FoodRecipeResponse ->
                 HorizontalDivider()
                 FoodRecipeItem(
-                    foodRecipe = foodRecipe,
+                    foodRecipeResponse = foodRecipeResponse,
                     onClickFoodRecipe = onClickFoodRecipe,
 //                    onClickFoodRecipeMap = onClickFoodRecipeMap,
                     modifier = modifier,
@@ -132,13 +123,13 @@ fun HomeContent(
  */
 @Composable
 fun FoodRecipeItem(
-    foodRecipe: FoodRecipe,
+    foodRecipeResponse: FoodRecipeResponse,
     onClickFoodRecipe: (foodRecipeId: Int) -> Unit,
 //    onClickFoodRecipeMap: () -> Unit,
     modifier: Modifier,
 ) {
     OutlinedCard(
-        onClick = { onClickFoodRecipe(foodRecipe.id) },
+        onClick = { onClickFoodRecipe(foodRecipeResponse.id) },
         border = BorderStroke(0.dp, color = Color.Transparent),
         modifier = modifier
             .fillMaxWidth()
@@ -153,7 +144,7 @@ fun FoodRecipeItem(
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(foodRecipe.imageUrl)
+                    .data(foodRecipeResponse.imageUrl)
                     .crossfade(true)
                     .build(),
                 placeholder = painterResource(id = R.drawable.ic_launcher_background),
@@ -164,7 +155,7 @@ fun FoodRecipeItem(
                 error = painterResource(id = R.drawable.ic_launcher_background),
             )
             Text(
-                text = foodRecipe.name,
+                text = foodRecipeResponse.name,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = modifier.weight(0.8f).padding(start = 6.dp),
@@ -244,7 +235,7 @@ fun HomeContentPreview() {
             onQueryChange = { },
             onSearch = { },
             onActiveChange = { },
-            foodRecipes = createMockData(),
+            foodRecipeResponses = createMockData(),
             modifier = Modifier,
         )
 

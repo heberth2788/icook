@@ -1,7 +1,5 @@
 package com.yape.icook.ui.detail
 
-import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,7 +8,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ElevatedCard
@@ -32,16 +29,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
-import coil3.imageLoader
 import coil3.request.ImageRequest
 import coil3.request.crossfade
-import coil3.util.DebugLogger
 import com.yape.icook.R
-import com.yape.icook.mock.mockFoodRecipe
-import com.yape.icook.ui.domainentity.FoodRecipe
+import com.yape.icook.data.entity.FoodRecipeResponse
 import com.yape.icook.ui.theme.ICookTheme
 
 @Composable
@@ -51,7 +44,7 @@ fun DetailScreen(
     foodRecipeId: Int,
 ) {
     DetailContent(
-        foodRecipe = detailViewModel.foodRecipe,
+        foodRecipeResponse = detailViewModel.foodRecipeResponse,
 //        onClickBack = { detailViewModel.onClickBack() },
         onClickBack = { navHostController.navigateUp() },
         onClickMap = { navHostController.navigate("map/${foodRecipeId}") },
@@ -68,7 +61,7 @@ fun DetailScreen(
 
 @Composable
 fun DetailContent(
-    foodRecipe: FoodRecipe,
+    foodRecipeResponse: FoodRecipeResponse,
     onClickBack: () -> Unit = { },
     onClickMap: () -> Unit = { },
     modifier: Modifier,
@@ -76,7 +69,7 @@ fun DetailContent(
     Scaffold(
         topBar = {
             DetailTopBar(
-                foodName = foodRecipe.name,
+                foodName = foodRecipeResponse.name,
                 onClickBack = onClickBack,
                 modifier = modifier,
             )
@@ -98,7 +91,7 @@ fun DetailContent(
                    // Food image
                    AsyncImage(
                        model = ImageRequest.Builder(LocalContext.current)
-                           .data(foodRecipe.imageUrl)
+                           .data(foodRecipeResponse.imageUrl)
                            .crossfade(true)
                            .build(),
                        placeholder = painterResource(id = R.drawable.ic_launcher_background),
@@ -132,7 +125,7 @@ fun DetailContent(
                    )
                    HorizontalDivider()
                    Text(
-                       text = foodRecipe.desc,
+                       text = foodRecipeResponse.desc,
                        style = MaterialTheme.typography.bodyLarge,
                        modifier = modifier
                            .fillMaxWidth()
@@ -152,7 +145,7 @@ fun DetailContent(
                    )
                    HorizontalDivider()
                    Text(
-                       text = foodRecipe.ingredients,
+                       text = foodRecipeResponse.ingredients,
                        style = MaterialTheme.typography.bodyLarge,
                        modifier = modifier
                            .fillMaxWidth()
@@ -173,7 +166,7 @@ fun DetailContent(
                    )
                    HorizontalDivider()
                    Text(
-                       text = foodRecipe.preparation,
+                       text = foodRecipeResponse.preparation,
                        style = MaterialTheme.typography.bodyLarge,
                        modifier = modifier
                            .fillMaxWidth()

@@ -1,4 +1,4 @@
-package com.yape.icook
+package com.yape.icook.app
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

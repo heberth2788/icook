@@ -1,7 +1,7 @@
 package com.yape.icook.ui.home
 
-import com.yape.icook.ui.domainentity.FoodRecipe
+import com.yape.icook.data.entity.FoodRecipeResponse
 
 data class HomeUiState(
-    val foodRecipes: List<FoodRecipe> = emptyList(),
+    val foodRecipeResponses: List<FoodRecipeResponse> = emptyList(),
 )

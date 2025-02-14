@@ -24,19 +24,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapType
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
-import com.google.maps.android.compose.rememberMarkerState
+import com.google.maps.android.compose.rememberUpdatedMarkerState
 import com.yape.icook.R
-import com.yape.icook.ui.domainentity.FoodRecipe
+import com.yape.icook.data.entity.FoodRecipeResponse
 import com.yape.icook.ui.theme.ICookTheme
 
 @Composable
@@ -46,7 +48,7 @@ fun MapScreen(
     foodRecipeId: Int,
 ) {
     MapContent(
-        foodRecipe = mapViewModel.foodRecipe,
+        foodRecipeResponse = mapViewModel.foodRecipeResponse,
         onClickBack = { navHostController.navigateUp() },
         modifier = Modifier,
     )
@@ -61,7 +63,7 @@ fun MapScreen(
 
 @Composable
 fun MapContent(
-    foodRecipe: FoodRecipe,
+    foodRecipeResponse: FoodRecipeResponse,
     onClickBack: () -> Unit = { },
     modifier: Modifier,
 ) {
@@ -69,7 +71,7 @@ fun MapContent(
         topBar = {
             MapTopBar(
                 onClickBack = onClickBack,
-                foodRecipe = foodRecipe,
+                foodRecipeResponse = foodRecipeResponse,
                 modifier = modifier,
             )
         }
@@ -78,7 +80,7 @@ fun MapContent(
             modifier = modifier.padding(paddingValues)
         ) {
             CookMap(
-                foodRecipe = foodRecipe,
+                foodRecipeResponse = foodRecipeResponse,
                 modifier = modifier,
             )
         }
@@ -87,32 +89,52 @@ fun MapContent(
 
 @Composable
 fun CookMap(
-    foodRecipe: FoodRecipe,
+    foodRecipeResponse: FoodRecipeResponse,
     modifier: Modifier,
 ) {
-    val location = LatLng(foodRecipe.lat, foodRecipe.lon)
+    val recipePosition = LatLng(foodRecipeResponse.lat, foodRecipeResponse.lng)
 //    val location = LatLng(-7.241207, -79.4720119)
-    var uiSettings by remember { mutableStateOf(MapUiSettings()) }
-    val properties by remember { mutableStateOf(MapProperties(mapType = MapType.NORMAL)) }
-    val markerState = rememberMarkerState(position = location)
-    val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(location, 11.5f)
+    var uiSettings: MapUiSettings by remember { mutableStateOf(MapUiSettings()) }
+    val properties: MapProperties by remember { mutableStateOf(MapProperties(mapType = MapType.NORMAL)) }
+//    val markerState: MarkerState = rememberMarkerState(position = recipePosition)
+    val markerState: MarkerState = rememberUpdatedMarkerState(position = recipePosition)
+//    val markerState = rememberSaveable(saver = MarkerState.Saver) { MarkerState(recipePosition) }
+    val cameraPositionState: CameraPositionState = rememberCameraPositionState {
+        position = CameraPosition.fromLatLngZoom(recipePosition, 11.5f)
     }
+//    Log.d("MapScreen", "${ foodRecipe.lat } | ${ foodRecipe.lng }  ; ${ recipePosition.latitude } | ${ recipePosition.longitude }")
 
     Box(
         modifier = modifier.fillMaxSize(),
     ) {
         GoogleMap(
             cameraPositionState = cameraPositionState,
+//            cameraPositionState = mapCameraPositionState,
             properties = properties,
             uiSettings = uiSettings,
             modifier = modifier.matchParentSize(),
         ) {
+//            MarkerComposable(
+//                keys = arrayOf(foodRecipe.id),
+//                state = markerState,
+////                state = mapMarkerState,
+//                title = foodRecipe.name,
+//                snippet = foodRecipe.desc,
+//            ) {
+//                Image(
+//                    imageVector = Icons.Filled.Place,
+//                    contentDescription = null,
+//                    modifier = Modifier.shadow(elevation = 5.dp) // Doesn't show the shadow
+//                )
+////                Icon(imageVector = Icons.Rounded.Place, contentDescription = null)
+//            }
+            LaunchedEffect(key1 = recipePosition) {
+                cameraPositionState.move(CameraUpdateFactory.newLatLng(recipePosition))
+            }
             Marker(
                 state = markerState,
-                title = foodRecipe.name,
-                snippet = "${ foodRecipe.desc } : lat=${ foodRecipe.lat } | lon=${ foodRecipe.lon }",
-//                snippet = "${ foodRecipe.desc } : lat=${ location.latitude } | lon=${ location.longitude }",
+                title = foodRecipeResponse.name,
+                snippet = foodRecipeResponse.desc,
             )
         }
         Switch(
@@ -128,12 +150,12 @@ fun CookMap(
 @Composable
 fun MapTopBar(
     onClickBack: () -> Unit,
-    foodRecipe: FoodRecipe,
+    foodRecipeResponse: FoodRecipeResponse,
     modifier: Modifier,
 ) {
     CenterAlignedTopAppBar(
         title = {
-            Text(text = "${ foodRecipe.name } ${ stringResource(R.string.map_text) }")
+            Text(text = "${ foodRecipeResponse.name } ${ stringResource(R.string.map_text) }")
         },
         navigationIcon = {
             IconButton(

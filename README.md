@@ -33,8 +33,15 @@ MVVM: for separating the UI from the data layer
 - Hilt: for dependency injection
 - Flows: for asynchronous data streams
 - Coroutines: for asynchronous programming
-<!-- - Room: for caching data -->
-<!-- - Firebase (and Firebase emulators): for real-time database and authentication -->
 - Retrofit: for making network requests
 - R8: for minifying and optimizing the code
 - JUnit: for testing
+
+## To improve:
+
+1. Improve the UX/UI
+2. Add Room or DataStore for caching data
+3. Add new EndPoint for search food recipe by id
+4. Add Domain Layer when the app is more complex
+5. Add Firebase authentication for login and register
+6. Add CI/CE pipeline
