@@ -6,6 +6,9 @@ The I cook android app
 
 MVVM: for separating the UI from the data layer
 
+<img width="788" alt="Screenshot 2025-02-14 at 02 57 16" src="https://github.com/user-attachments/assets/9f33e913-bce8-4cfb-a6b0-c74d41f94a1a" />
+
+
 ### Layers:
 
 1. UI Layer
