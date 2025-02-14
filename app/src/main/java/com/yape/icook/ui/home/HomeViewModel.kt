@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yape.icook.data.datasource.ApiStatus
 import com.yape.icook.data.datasource.ResultApi
-import com.yape.icook.data.repository.FoodRecipeRepository
 import com.yape.icook.data.entity.FoodRecipeResponse
+import com.yape.icook.data.repository.FoodRecipeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,11 +18,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val foodRecipeRepository: FoodRecipeRepository,
+    private val networkFoodRecipeRepository: FoodRecipeRepository,
 ) : ViewModel() {
 
     private val _homeUiState: MutableStateFlow<HomeUiState> = MutableStateFlow(
-//        HomeUiState(foodRecipes = createMockData())
         HomeUiState()
     )
     val homeUiState: StateFlow<HomeUiState> = _homeUiState.asStateFlow()
@@ -33,7 +32,7 @@ class HomeViewModel @Inject constructor(
     private val foodRecipesCacheResponse: MutableList<FoodRecipeResponse> = mutableListOf()
 
     fun loadFoodRecipes()= viewModelScope.launch  {
-        val result = foodRecipeRepository.getFoodRecipes()
+        val result = networkFoodRecipeRepository.getFoodRecipes()
         when (result.apiStatus) {
             ApiStatus.SUCCESS -> {
                 val foodRecipeResponseList: List<FoodRecipeResponse> = (result as? ResultApi.Success)?.data ?: emptyList()

@@ -1,5 +1,7 @@
 package com.yape.icook.data.datasource
 
+import com.yape.icook.data.repository.FoodRecipeRepository
+import com.yape.icook.data.repository.NetworkFoodRecipeRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,4 +30,17 @@ object NetworkModule {
         .baseUrl(URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
+
+    @Provides
+    @Singleton
+    fun provideFoodRecipeRepository(
+        foodRecipeDataSource: FoodRecipeDataSource,
+    ): FoodRecipeRepository = NetworkFoodRecipeRepository(foodRecipeDataSource)
+
+    @Provides
+    @Singleton
+    fun provideFoodRecipeDataSource(
+        foodRecipeService: FoodRecipeService,
+    ): FoodRecipeDataSource =
+        FoodRecipeDataSource(foodRecipeService)
 }

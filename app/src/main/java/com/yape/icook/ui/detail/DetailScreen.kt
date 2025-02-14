@@ -35,6 +35,7 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.yape.icook.R
 import com.yape.icook.data.entity.FoodRecipeResponse
+import com.yape.icook.mock.mockFoodRecipeResponse
 import com.yape.icook.ui.theme.ICookTheme
 
 @Composable
@@ -45,7 +46,6 @@ fun DetailScreen(
 ) {
     DetailContent(
         foodRecipeResponse = detailViewModel.foodRecipeResponse,
-//        onClickBack = { detailViewModel.onClickBack() },
         onClickBack = { navHostController.navigateUp() },
         onClickMap = { navHostController.navigate("map/${foodRecipeId}") },
         modifier = Modifier,
@@ -98,7 +98,6 @@ fun DetailContent(
                        contentDescription = null,
                        contentScale = ContentScale.Crop,
                        modifier = modifier.size(200.dp),
-//                       imageLoader = LocalContext.current.imageLoader.newBuilder().logger(DebugLogger()).build(),
                        error = painterResource(id = R.drawable.ic_launcher_background),
                    )
                    // Map button
@@ -204,8 +203,9 @@ fun DetailTopBar(
 @Composable
 fun DetailContentPreview() {
     ICookTheme {
-
-
-//        DetailScreen()
+        DetailContent(
+            foodRecipeResponse = mockFoodRecipeResponse,
+            modifier = Modifier,
+        )
     }
 }

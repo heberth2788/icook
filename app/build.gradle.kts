@@ -57,7 +57,9 @@ android {
 }
 
 dependencies {
-    implementation(libs.hilt) // for hilt DI
+    implementation(libs.hilt)
+    implementation(libs.androidx.media3.common.ktx)
+//    testImplementation(libs.junit.jupiter) // for hilt DI
     kapt(libs.hilt.compiler) // for hilt DI
     implementation(libs.hilt.navigation.compose) // for use 'hiltViewModel()' compose
     implementation(libs.viewmodel.compose) // for use 'viewModel()' in compose
@@ -80,6 +82,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+    testImplementation(libs.kotlinx.coroutines.test)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }

@@ -39,6 +39,7 @@ import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberUpdatedMarkerState
 import com.yape.icook.R
 import com.yape.icook.data.entity.FoodRecipeResponse
+import com.yape.icook.mock.mockFoodRecipeResponse
 import com.yape.icook.ui.theme.ICookTheme
 
 @Composable
@@ -93,41 +94,22 @@ fun CookMap(
     modifier: Modifier,
 ) {
     val recipePosition = LatLng(foodRecipeResponse.lat, foodRecipeResponse.lng)
-//    val location = LatLng(-7.241207, -79.4720119)
     var uiSettings: MapUiSettings by remember { mutableStateOf(MapUiSettings()) }
     val properties: MapProperties by remember { mutableStateOf(MapProperties(mapType = MapType.NORMAL)) }
-//    val markerState: MarkerState = rememberMarkerState(position = recipePosition)
     val markerState: MarkerState = rememberUpdatedMarkerState(position = recipePosition)
-//    val markerState = rememberSaveable(saver = MarkerState.Saver) { MarkerState(recipePosition) }
     val cameraPositionState: CameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(recipePosition, 11.5f)
     }
-//    Log.d("MapScreen", "${ foodRecipe.lat } | ${ foodRecipe.lng }  ; ${ recipePosition.latitude } | ${ recipePosition.longitude }")
 
     Box(
         modifier = modifier.fillMaxSize(),
     ) {
         GoogleMap(
             cameraPositionState = cameraPositionState,
-//            cameraPositionState = mapCameraPositionState,
             properties = properties,
             uiSettings = uiSettings,
             modifier = modifier.matchParentSize(),
         ) {
-//            MarkerComposable(
-//                keys = arrayOf(foodRecipe.id),
-//                state = markerState,
-////                state = mapMarkerState,
-//                title = foodRecipe.name,
-//                snippet = foodRecipe.desc,
-//            ) {
-//                Image(
-//                    imageVector = Icons.Filled.Place,
-//                    contentDescription = null,
-//                    modifier = Modifier.shadow(elevation = 5.dp) // Doesn't show the shadow
-//                )
-////                Icon(imageVector = Icons.Rounded.Place, contentDescription = null)
-//            }
             LaunchedEffect(key1 = recipePosition) {
                 cameraPositionState.move(CameraUpdateFactory.newLatLng(recipePosition))
             }
@@ -172,6 +154,9 @@ fun MapTopBar(
 @Composable
 fun MapContentPreview() {
     ICookTheme {
-//        MapScreen()
+        MapContent(
+            foodRecipeResponse = mockFoodRecipeResponse,
+            modifier = Modifier,
+        )
     }
 }

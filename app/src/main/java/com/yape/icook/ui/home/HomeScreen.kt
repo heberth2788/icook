@@ -11,11 +11,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
@@ -40,8 +38,8 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.yape.icook.R
-import com.yape.icook.mock.createMockData
 import com.yape.icook.data.entity.FoodRecipeResponse
+import com.yape.icook.mock.createMockData
 import com.yape.icook.ui.theme.ICookTheme
 
 
@@ -77,7 +75,6 @@ fun HomeScreen(
  */
 @Composable
 fun HomeContent(
-//    onClickSearch: () -> Unit = { },
     textToSearch: String,
     onQueryChange: (String) -> Unit,
     onSearch: (String) -> Unit,
@@ -88,10 +85,6 @@ fun HomeContent(
 ) {
     Scaffold(
         topBar = {
-//                HomeTopBar(
-//                    onClickSearch = onClickSearch,
-//                    modifier = modifier,
-//                )
                 SearchTopBar(
                     textToSearch = textToSearch,
                     onQueryChange = onQueryChange,
@@ -110,7 +103,6 @@ fun HomeContent(
                 FoodRecipeItem(
                     foodRecipeResponse = foodRecipeResponse,
                     onClickFoodRecipe = onClickFoodRecipe,
-//                    onClickFoodRecipeMap = onClickFoodRecipeMap,
                     modifier = modifier,
                 )
             }
@@ -125,7 +117,6 @@ fun HomeContent(
 fun FoodRecipeItem(
     foodRecipeResponse: FoodRecipeResponse,
     onClickFoodRecipe: (foodRecipeId: Int) -> Unit,
-//    onClickFoodRecipeMap: () -> Unit,
     modifier: Modifier,
 ) {
     OutlinedCard(
@@ -160,38 +151,8 @@ fun FoodRecipeItem(
                 overflow = TextOverflow.Ellipsis,
                 modifier = modifier.weight(0.8f).padding(start = 6.dp),
             )
-//        IconButton(
-//            modifier = modifier.weight(0.2f),
-//            onClick = onClickFoodRecipeMap,
-//        ) {
-//            Icon(imageVector = Icons.Filled.Place, contentDescription = null)
-//        }
         }
     }
-}
-
-/**
- * Compose Top app bar with title and search icon
- */
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun HomeTopBar(
-    onClickSearch: () -> Unit,
-    modifier: Modifier,
-) {
-    CenterAlignedTopAppBar(
-        title = {
-            Text(text = stringResource(R.string.app_name))
-        },
-        actions = {
-            IconButton(
-                onClick = onClickSearch,
-            ) {
-                Icon(imageVector = Icons.Filled.Search, contentDescription = null)
-            }
-        },
-        modifier = modifier,
-    )
 }
 
 /**
@@ -214,8 +175,6 @@ fun SearchTopBar(
         onActiveChange = onActiveChange,
         placeholder = { Text(text = stringResource(R.string.search_text)) },
         trailingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
-//        leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
-//        trailingIcon = { Icon(Icons.Default.MoreVert, contentDescription = null) },
         modifier = modifier
             .fillMaxWidth()
             .padding(9.dp),
@@ -238,7 +197,5 @@ fun HomeContentPreview() {
             foodRecipeResponses = createMockData(),
             modifier = Modifier,
         )
-
-//        HomeScreen()
     }
 }
