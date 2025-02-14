@@ -8,6 +8,16 @@ MVVM: for separating the UI from the data layer
 
 <img width="788" alt="Screenshot 2025-02-14 at 02 57 16" src="https://github.com/user-attachments/assets/9f33e913-bce8-4cfb-a6b0-c74d41f94a1a" />
 
+### Screenshots:
+
+![image](https://github.com/user-attachments/assets/c8b6801b-cf2e-4a3b-9c7e-91c7f02b7c87)
+
+![image](https://github.com/user-attachments/assets/7ec4a0d5-4707-4916-b465-c22b536709e0)
+
+![image](https://github.com/user-attachments/assets/fef57e36-01df-40f0-9fff-9ca45cfa816b)
+
+![image](https://github.com/user-attachments/assets/5c2e3b88-d868-4c7f-9073-92ae795b63da)
+
 ### Layers:
 
 1. UI Layer
