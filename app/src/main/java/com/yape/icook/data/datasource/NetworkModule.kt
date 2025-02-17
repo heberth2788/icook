@@ -15,7 +15,8 @@ import javax.inject.Singleton
 object NetworkModule {
 
     // Web service URL
-    private const val URL = "http://demo6946172.mockable.io/"
+//    private const val URL = "http://demo6946172.mockable.io/"
+    private const val URL = "https://icookapi-459429355585.us-central1.run.app/"
 
     @Provides
     @Singleton
