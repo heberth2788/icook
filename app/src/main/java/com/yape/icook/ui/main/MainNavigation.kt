@@ -11,11 +11,14 @@ import com.yape.icook.ui.detail.DetailScreen
 import com.yape.icook.ui.home.HomeScreen
 import com.yape.icook.ui.map.MapScreen
 
+// TODO: use @serializable objects/classes to define route destinations for each screen. See: https://developer.android.com/guide/navigation/design#compose-minimal
+
 @Composable
 fun MainNavigation() {
     val navController: NavHostController = rememberNavController()
 
     NavHost(
+        // TODO: DO NOT pass the NavHostController object to the below composable function
         navController = navController,
         startDestination = "home",
     ) {
@@ -24,7 +27,7 @@ fun MainNavigation() {
         composable(
             route = "home",
         ) {
-            HomeScreen(navHostController = navController)
+            HomeScreen(navHostController = navController) //TODO: refactor, don't pass NavHostController
         }
 
         // For DetailScreen navigation
@@ -38,7 +41,7 @@ fun MainNavigation() {
             )
         ) {
             DetailScreen(
-                navHostController = navController,
+                navHostController = navController, //TODO: refactor, don't pass NavHostController
                 foodRecipeId = it.arguments?.getInt("foodRecipeId") ?: 0,
             )
         }
@@ -54,7 +57,7 @@ fun MainNavigation() {
             )
         ) {
             MapScreen(
-                navHostController = navController,
+                navHostController = navController, //TODO: refactor, don't pass NavHostController
                 foodRecipeId = it.arguments?.getInt("foodRecipeId") ?: 0,
             )
         }

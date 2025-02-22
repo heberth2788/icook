@@ -17,7 +17,6 @@ class HomeViewModelTest {
 
     @Test
     fun getFoodRecipeList_error() = runTest {
-
         // Arrange
         val homeViewModel = HomeViewModel(FakeNetworkFoodRecipeRepositoryError())
         val expectedRecipeCount = 0
