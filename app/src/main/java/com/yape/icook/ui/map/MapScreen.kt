@@ -24,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -45,12 +44,12 @@ import com.yape.icook.ui.theme.ICookTheme
 @Composable
 fun MapScreen(
     mapViewModel: MapViewModel = hiltViewModel(),
-    navHostController: NavHostController,
     foodRecipeId: Int,
+    navigateBack: () -> Unit,
 ) {
     MapContent(
         foodRecipeResponse = mapViewModel.foodRecipeResponse,
-        onClickBack = { navHostController.navigateUp() },
+        onClickBack = navigateBack,
         modifier = Modifier,
     )
 

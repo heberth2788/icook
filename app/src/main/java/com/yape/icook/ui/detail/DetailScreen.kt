@@ -29,7 +29,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
@@ -41,13 +40,14 @@ import com.yape.icook.ui.theme.ICookTheme
 @Composable
 fun DetailScreen(
     detailViewModel: DetailViewModel = hiltViewModel(),
-    navHostController: NavHostController,
     foodRecipeId: Int,
+    navigateBack: () -> Unit = { },
+    navigateToMap: () -> Unit = { },
 ) {
     DetailContent(
         foodRecipeResponse = detailViewModel.foodRecipeResponse,
-        onClickBack = { navHostController.navigateUp() },
-        onClickMap = { navHostController.navigate("map/${foodRecipeId}") },
+        onClickBack = navigateBack, //{ navHostController.navigateUp() },
+        onClickMap = navigateToMap, // { navHostController.navigate("map/${foodRecipeId}") },
         modifier = Modifier,
     )
 

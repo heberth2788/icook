@@ -33,7 +33,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
@@ -49,7 +48,7 @@ import com.yape.icook.ui.theme.ICookTheme
 @Composable
 fun HomeScreen(
     homeViewModel: HomeViewModel = hiltViewModel(),
-    navHostController: NavHostController,
+    navigateToFoodDetail: (foodRecipeId: Int) -> Unit = { },
 ) {
     val homeUiState: HomeUiState by homeViewModel.homeUiState.collectAsStateWithLifecycle()
 
@@ -59,7 +58,7 @@ fun HomeScreen(
        onSearch = { },
        onActiveChange = { },
        foodRecipeResponses = homeUiState.foodRecipeResponses,
-       onClickFoodRecipe = { navHostController.navigate("detail/${it}") },
+       onClickFoodRecipe = navigateToFoodDetail,//{ navHostController.navigate("detail/${it}") },
        modifier = Modifier,
    )
 

@@ -18,6 +18,9 @@ retrofit = "2.9.0"
 #junitJupiter = "5.8.1"
 kotlinxCoroutinesTest = "1.10.1"
 media3CommonKtx = "1.5.1"
+kotlinSerial = "2.0.21"
+navCompose = "2.8.8"
+serialJson = "1.7.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -48,6 +51,8 @@ retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", ve
 #junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junitJupiter" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 androidx-media3-common-ktx = { group = "androidx.media3", name = "media3-common-ktx", version.ref = "media3CommonKtx" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navCompose"}
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialJson" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -56,4 +61,4 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-kapt = { id = "kotlin-kapt" }
 secrets-gradle = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin" }
-
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinSerial" }

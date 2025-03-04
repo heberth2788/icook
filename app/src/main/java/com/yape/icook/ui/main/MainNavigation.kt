@@ -2,64 +2,51 @@ package com.yape.icook.ui.main
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
+import androidx.navigation.toRoute
 import com.yape.icook.ui.detail.DetailScreen
 import com.yape.icook.ui.home.HomeScreen
 import com.yape.icook.ui.map.MapScreen
-
-// TODO: use @serializable objects/classes to define route destinations for each screen. See: https://developer.android.com/guide/navigation/design#compose-minimal
 
 @Composable
 fun MainNavigation() {
     val navController: NavHostController = rememberNavController()
 
     NavHost(
-        // TODO: DO NOT pass the NavHostController object to the below composable function
         navController = navController,
-        startDestination = "home",
+        startDestination = HomeScreenRoute,
     ) {
 
         // For HomeScreen navigation
-        composable(
-            route = "home",
-        ) {
-            HomeScreen(navHostController = navController) //TODO: refactor, don't pass NavHostController
+        composable<HomeScreenRoute> {
+            HomeScreen { foodRecipeId: Int ->
+                navController.navigate(route = DetailScreenRoute(foodRecipeId))
+            }
         }
 
         // For DetailScreen navigation
-        composable(
-            route = "detail/{foodRecipeId}",
-            arguments = listOf(
-                navArgument("foodRecipeId") {
-                    type = NavType.IntType
-                    nullable = false
-                }
-            )
-        ) {
+        composable<DetailScreenRoute> { stackEntry ->
+            val detailScreenRoute: DetailScreenRoute = stackEntry.toRoute()
             DetailScreen(
-                navHostController = navController, //TODO: refactor, don't pass NavHostController
-                foodRecipeId = it.arguments?.getInt("foodRecipeId") ?: 0,
-            )
+                foodRecipeId = detailScreenRoute.foodRecipeId,
+                navigateBack = {
+                    navController.navigateUp()
+                },
+            ) {
+                navController.navigate(route = MapScreenRoute(detailScreenRoute.foodRecipeId))
+            }
         }
 
         // For MapScreen navigation
-        composable(
-            route = "map/{foodRecipeId}",
-            arguments = listOf(
-                navArgument("foodRecipeId") {
-                    type = NavType.IntType
-                    nullable = false
-                }
-            )
-        ) {
+        composable<MapScreenRoute> { stackEntry ->
+            val mapScreenRoute: MapScreenRoute = stackEntry.toRoute()
             MapScreen(
-                navHostController = navController, //TODO: refactor, don't pass NavHostController
-                foodRecipeId = it.arguments?.getInt("foodRecipeId") ?: 0,
-            )
+                foodRecipeId = mapScreenRoute.foodRecipeId,
+            ) {
+                navController.navigateUp()
+            }
         }
     }
 }
